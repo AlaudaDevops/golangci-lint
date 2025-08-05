@@ -24,7 +24,7 @@ builds:
       - arm64
     ldflags:
       - -w -s -extldflags '-static'
-    main: .
+    main: ./cmd/golangci-lint/
     binary: alauda-golangci-lint
 
 archives:
