@@ -24,6 +24,13 @@ jobs:
           go-version-file: go.mod
           cache: false
 
+      - name: Generate Version
+        id: generate_version
+        run: |
+          # remove "alauda-" prefix
+          GENERATED_VERSION=$(echo "${{ github.ref_name }}" | sed 's/alauda-//')
+          echo "GENERATED_VERSION=$GENERATED_VERSION" >> $GITHUB_OUTPUT
+
       - name: Set up GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
@@ -31,3 +38,4 @@ jobs:
           args: release -f=.goreleaser-alauda.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GENERATED_VERSION: ${{ steps.generate_version.outputs.GENERATED_VERSION }}

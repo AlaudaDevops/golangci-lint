@@ -22,8 +22,9 @@ builds:
     goarch:
       - amd64
       - arm64
-    ldflags:
-      - -w -s -extldflags '-static'
+    flags:
+      - -trimpath
+    ldflags: -s -w -X main.version={{.Env.GENERATED_VERSION}} -X main.commit={{.ShortCommit}} -X main.date={{.Date}}
     main: ./cmd/golangci-lint/
     binary: alauda-golangci-lint
 
