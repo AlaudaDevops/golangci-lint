@@ -1,6 +1,7 @@
 package testshared
 
 import (
+	"context"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -263,7 +264,7 @@ func (r *Runner) Command() *exec.Cmd {
 	runArgs := append([]string{r.command}, r.args...)
 
 	//nolint:gosec // we don't use user input here
-	cmd := exec.Command(r.binPath, runArgs...)
+	cmd := exec.CommandContext(context.Background(), r.binPath, runArgs...)
 	cmd.Env = append(os.Environ(), r.env...)
 
 	return cmd
@@ -279,7 +280,7 @@ type RunnerResult struct {
 func (r *RunnerResult) ExpectNoIssues() {
 	r.tb.Helper()
 
-	assert.Equal(r.tb, "", r.output, "exit code is %d", r.exitCode)
+	assert.Empty(r.tb, r.output, "exit code is %d", r.exitCode)
 	assert.Equal(r.tb, exitcodes.Success, r.exitCode, "output is %s", r.output)
 }
 

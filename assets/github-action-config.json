@@ -1,7 +1,7 @@
 {
   "MinorVersionToConfig": {
     "latest": {
-      "TargetVersion": "v1.64.7"
+      "TargetVersion": "v1.64.8"
     },
     "v1.10": {
       "Error": "golangci-lint version 'v1.10' isn't supported: we support only v1.28.3 and later versions"
@@ -178,7 +178,7 @@
       "TargetVersion": "v1.63.4"
     },
     "v1.64": {
-      "TargetVersion": "v1.64.7"
+      "TargetVersion": "v1.64.8"
     },
     "v1.7": {
       "Error": "golangci-lint version 'v1.7' isn't supported: we support only v1.28.3 and later versions"
@@ -188,6 +188,21 @@
     },
     "v1.9": {
       "Error": "golangci-lint version 'v1.9' isn't supported: we support only v1.28.3 and later versions"
+    },
+    "v2.0": {
+      "Error": "golangci-lint version 'v2.0' isn't supported: only v1 versions are supported"
+    },
+    "v2.1": {
+      "Error": "golangci-lint version 'v2.1' isn't supported: only v1 versions are supported"
+    },
+    "v2.2": {
+      "Error": "golangci-lint version 'v2.2' isn't supported: only v1 versions are supported"
+    },
+    "v2.3": {
+      "Error": "golangci-lint version 'v2.3' isn't supported: only v1 versions are supported"
+    },
+    "v2.4": {
+      "Error": "golangci-lint version 'v2.4' isn't supported: only v1 versions are supported"
     }
   }
 }

@@ -11,7 +11,7 @@ env:
   # ex:
   # - 1.18beta1 -> 1.18.0-beta.1
   # - 1.18rc1 -> 1.18.0-rc.1
-  GO_VERSION: '1.24'
+  GO_VERSION: '1.25'
 
 jobs:
   # Check if there is any dirty change for go mod tidy
@@ -30,21 +30,22 @@ jobs:
 
   # We already run the current golangci-lint in tests, but here we test
   # our GitHub action with the latest stable golangci-lint.
-  golangci-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-          # https://github.com/actions/setup-go#supported-version-syntax
-          # ex:
-          # - 1.18beta1 -> 1.18.0-beta.1
-          # - 1.18rc1 -> 1.18.0-rc.1
-          go-version: ${{ env.GO_VERSION }}
-      - name: lint
-        uses: golangci/golangci-lint-action@v6.5.0
-        with:
-          version: latest
+  # **Important**: The v1 version of the action on GitHub does not support golang 1.25, so it needs to be disabled.
+  # golangci-lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-go@v5
+  #       with:
+  #         # https://github.com/actions/setup-go#supported-version-syntax
+  #         # ex:
+  #         # - 1.18beta1 -> 1.18.0-beta.1
+  #         # - 1.18rc1 -> 1.18.0-rc.1
+  #         go-version: ${{ env.GO_VERSION }}
+  #     - name: lint
+  #       uses: golangci/golangci-lint-action@v6.5.0
+  #       with:
+  #         version: latest
 
   tests-on-windows:
     needs: golangci-lint # run after golangci-lint action to not produce duplicated errors
