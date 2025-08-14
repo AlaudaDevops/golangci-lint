@@ -275,7 +275,6 @@ func TestLineDirectiveProcessedFiles(t *testing.T) {
 			},
 			target: "quicktemplate",
 			expected: []string{
-				"testdata/quicktemplate/hello.qtpl.go:10:1: package-comments: should have a package comment (revive)",
 				"testdata/quicktemplate/hello.qtpl.go:26:1: exported: exported function StreamHello should have comment or be unexported (revive)",
 				"testdata/quicktemplate/hello.qtpl.go:39:1: exported: exported function WriteHello should have comment or be unexported (revive)",
 				"testdata/quicktemplate/hello.qtpl.go:50:1: exported: exported function Hello should have comment or be unexported (revive)",
@@ -290,7 +289,6 @@ func TestLineDirectiveProcessedFiles(t *testing.T) {
 			},
 			target: "quicktemplate",
 			expected: []string{
-				"testdata/quicktemplate/hello.qtpl.go:10:1: package-comments: should have a package comment (revive)",
 				"testdata/quicktemplate/hello.qtpl.go:26:1: exported: exported function StreamHello should have comment or be unexported (revive)",
 				"testdata/quicktemplate/hello.qtpl.go:39:1: exported: exported function WriteHello should have comment or be unexported (revive)",
 				"testdata/quicktemplate/hello.qtpl.go:50:1: exported: exported function Hello should have comment or be unexported (revive)",
