@@ -2,6 +2,7 @@ package bench
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"go/build"
@@ -63,7 +64,7 @@ func Benchmark_linters(b *testing.B) {
 
 			for _, repo := range repos {
 				b.Run(repo.name, func(b *testing.B) {
-					_ = exec.Command(binName, "cache", "clean").Run()
+					_ = exec.CommandContext(context.Background(), binName, "cache", "clean").Run()
 
 					err = os.Chdir(repo.dir)
 					require.NoErrorf(b, err, "can't chdir to %s", repo.dir)
@@ -94,7 +95,7 @@ func Benchmark_golangciLint(b *testing.B) {
 
 	installGolangCILint(b)
 
-	_ = exec.Command(binName, "cache", "clean").Run()
+	_ = exec.CommandContext(context.Background(), binName, "cache", "clean").Run()
 
 	cases := getAllRepositories(b)
 
@@ -177,7 +178,7 @@ func cloneGithubProject(tb testing.TB, benchRoot, owner, name string) string {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		repo := fmt.Sprintf("https://github.com/%s/%s.git", owner, name)
 
-		err = exec.Command("git", "clone", "--depth", "1", "--single-branch", repo, dir).Run()
+		err = exec.CommandContext(context.Background(), "git", "clone", "--depth", "1", "--single-branch", repo, dir).Run()
 		if err != nil {
 			tb.Fatalf("can't git clone %s/%s: %s", owner, name, err)
 		}
@@ -210,7 +211,7 @@ func launch(tb testing.TB, run func(testing.TB, string, []string), args []string
 func run(tb testing.TB, name string, args []string) {
 	tb.Helper()
 
-	cmd := exec.Command(name, args...)
+	cmd := exec.CommandContext(context.Background(), name, args...)
 	if os.Getenv("PRINT_CMD") == "1" {
 		log.Print(strings.Join(cmd.Args, " "))
 	}
@@ -228,7 +229,7 @@ func run(tb testing.TB, name string, args []string) {
 func countGoLines(tb testing.TB) int {
 	tb.Helper()
 
-	cmd := exec.Command("bash", "-c", `find . -type f -name "*.go" |  grep -F -v vendor | xargs wc -l | tail -1`)
+	cmd := exec.CommandContext(context.Background(), "bash", "-c", `find . -type f -name "*.go" |  grep -F -v vendor | xargs wc -l | tail -1`)
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -341,7 +342,7 @@ func installGolangCILint(tb testing.TB) {
 
 	parentPath := findMakefile(tb)
 
-	cmd := exec.Command("make", "-C", parentPath, "build")
+	cmd := exec.CommandContext(context.Background(), "make", "-C", parentPath, "build")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {

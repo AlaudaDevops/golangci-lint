@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -86,19 +87,19 @@ func saveDefaultExclusions() error {
 }
 
 func saveCLIHelp(dst string) error {
-	err := exec.Command("make", "build").Run()
+	err := exec.CommandContext(context.Background(), "make", "build").Run()
 	if err != nil {
 		return fmt.Errorf("can't run make build: %w", err)
 	}
 
-	lintersOut, err := exec.Command("./golangci-lint", "help", "linters").Output()
+	lintersOut, err := exec.CommandContext(context.Background(), "./golangci-lint", "help", "linters").Output()
 	if err != nil {
 		return fmt.Errorf("can't run linters cmd: %w", err)
 	}
 
 	lintersOutParts := bytes.Split(lintersOut, []byte("\n\n"))
 
-	helpCmd := exec.Command("./golangci-lint", "run", "-h")
+	helpCmd := exec.CommandContext(context.Background(), "./golangci-lint", "run", "-h")
 	helpCmd.Env = append(helpCmd.Env, os.Environ()...)
 	helpCmd.Env = append(helpCmd.Env, "HELP_RUN=1") // make default concurrency stable: don't depend on machine CPU number
 	help, err := helpCmd.Output()

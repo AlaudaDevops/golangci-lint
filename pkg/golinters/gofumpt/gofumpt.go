@@ -16,7 +16,7 @@ func New(settings *config.GofumptSettings) *goanalysis.Linter {
 	a := goformatters.NewAnalyzer(
 		internal.LinterLogger.Child(linterName),
 		"Checks if code and import statements are formatted, with additional rules.",
-		gofumptbase.New(settings, settings.LangVersion),
+		gofumptbase.New(settings, ""),
 	)
 
 	return goanalysis.NewLinter(
