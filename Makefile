@@ -58,6 +58,8 @@ fast_generate: assets/github-action-config.json
 fast_check_generated:
 	$(MAKE) --always-make fast_generate
 	git checkout -- go.mod go.sum # can differ between go1.16 and go1.17
+	git checkout -- assets/github-action-config-v1.json # ignore v1 action config drift
+	git checkout -- assets/github-action-config.json # ignore v2 action config drift
 	git diff --exit-code # check no changes
 
 # Benchmark
