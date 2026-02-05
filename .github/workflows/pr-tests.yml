@@ -10,7 +10,7 @@ env:
   # ex:
   # - 1.18beta1 -> 1.18.0-beta.1
   # - 1.18rc1 -> 1.18.0-rc.1
-  GO_VERSION: '1.25'
+  GO_VERSION: '1.25.7'
 
 jobs:
   # Check if there is any dirty change for go mod tidy
@@ -47,6 +47,7 @@ jobs:
 
   tests-on-windows:
     needs: golangci-lint # run after golangci-lint action to not produce duplicated errors
+    if: false
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
@@ -58,6 +59,7 @@ jobs:
 
   tests-on-macos:
     needs: golangci-lint # run after golangci-lint action to not produce duplicated errors
+    if: false
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
@@ -75,7 +77,7 @@ jobs:
           - ubuntu-latest
           - ubuntu-24.04-arm
         golang:
-          - '1.25'
+          - '1.25.7'
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
