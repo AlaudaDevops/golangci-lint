@@ -11,7 +11,7 @@ env:
   # ex:
   # - 1.18beta1 -> 1.18.0-beta.1
   # - 1.18rc1 -> 1.18.0-rc.1
-  GO_VERSION: '1.25'
+  GO_VERSION: '1.26'
 
 jobs:
   # Check if there is any dirty change for go mod tidy
@@ -30,7 +30,7 @@ jobs:
 
   # We already run the current golangci-lint in tests, but here we test
   # our GitHub action with the latest stable golangci-lint.
-  # **Important**: The v1 version of the action on GitHub does not support golang 1.25, so it needs to be disabled.
+  # **Important**: The v1 version of the action on GitHub does not support golang 1.26, so it needs to be disabled.
   golangci-lint:
     runs-on: ubuntu-latest
     steps:
