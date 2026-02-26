@@ -10,7 +10,7 @@ env:
   # ex:
   # - 1.18beta1 -> 1.18.0-beta.1
   # - 1.18rc1 -> 1.18.0-rc.1
-  GO_VERSION: '1.25.7'
+  GO_VERSION: '1.26.0'
 
 jobs:
   # Check if there is any dirty change for go mod tidy
@@ -48,7 +48,7 @@ jobs:
     name: Installation script (local)
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6

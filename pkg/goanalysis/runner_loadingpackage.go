@@ -9,6 +9,7 @@ import (
 	"go/parser"
 	"go/scanner"
 	"go/types"
+	"math"
 	"os"
 	"reflect"
 	"strings"
@@ -515,10 +516,38 @@ func sizeOfValueTreeBytes(v any) int {
 	return sizeOfReflectValueTreeBytes(reflect.ValueOf(v), map[uintptr]struct{}{})
 }
 
+func saturatingUintptrToInt(v uintptr) int {
+	if v > uintptr(math.MaxInt) {
+		return math.MaxInt
+	}
+
+	return int(v)
+}
+
+func saturatingMulInt(a, b int) int {
+	if a == 0 || b == 0 {
+		return 0
+	}
+
+	if a > math.MaxInt/b {
+		return math.MaxInt
+	}
+
+	return a * b
+}
+
+func saturatingAddInt(a, b int) int {
+	if a > math.MaxInt-b {
+		return math.MaxInt
+	}
+
+	return a + b
+}
+
 func sizeOfReflectValueTreeBytes(rv reflect.Value, visitedPtrs map[uintptr]struct{}) int {
 	switch rv.Kind() {
 	case reflect.Ptr:
-		ptrSize := int(rv.Type().Size())
+		ptrSize := saturatingUintptrToInt(rv.Type().Size())
 		if rv.IsNil() {
 			return ptrSize
 		}
@@ -540,7 +569,9 @@ func sizeOfReflectValueTreeBytes(rv reflect.Value, visitedPtrs map[uintptr]struc
 		}
 		return ret
 	case reflect.Slice, reflect.Array, reflect.Chan:
-		return int(rv.Type().Size()) + rv.Cap()*int(rv.Type().Elem().Size())
+		headerSize := saturatingUintptrToInt(rv.Type().Size())
+		elemsSize := saturatingMulInt(rv.Cap(), saturatingUintptrToInt(rv.Type().Elem().Size()))
+		return saturatingAddInt(headerSize, elemsSize)
 	case reflect.Map:
 		ret := 0
 		for _, key := range rv.MapKeys() {
@@ -555,7 +586,7 @@ func sizeOfReflectValueTreeBytes(rv reflect.Value, visitedPtrs map[uintptr]struc
 		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
 		reflect.Uintptr, reflect.Bool, reflect.Float32, reflect.Float64,
 		reflect.Complex64, reflect.Complex128, reflect.Func, reflect.UnsafePointer:
-		return int(rv.Type().Size())
+		return saturatingUintptrToInt(rv.Type().Size())
 	case reflect.Invalid:
 		return 0
 	default:
