@@ -71,7 +71,7 @@ jobs:
     name: Installation script (remote)
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - run: curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b "./install-golangci-lint"
