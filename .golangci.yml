@@ -166,6 +166,45 @@ linters:
         linters: [gosec]
         text: "G115: integer overflow conversion uint64 -> int"
 
+      # Trusted internal schema loaders and fixed endpoint can trigger taint-analysis false positives.
+      - path: pkg/commands/config_verify.go
+        linters: [gosec]
+        text: "G704: SSRF via taint analysis"
+      - path: scripts/website/github/github.go
+        linters: [gosec]
+        text: "G704: SSRF via taint analysis"
+
+      # Paths are local output/test paths controlled by the command or test harness.
+      - path: pkg/commands/internal/builder.go
+        linters: [gosec]
+        text: "G703: Path traversal via taint analysis"
+      - path: scripts/website/copy_jsonschema/main.go
+        linters: [gosec]
+        text: "G703: Path traversal via taint analysis"
+      - path: test/testshared/install.go
+        linters: [gosec]
+        text: "G703: Path traversal via taint analysis"
+
+      # owner/name are fixed benchmark fixtures, not runtime user input.
+      - path: test/bench/bench_test.go
+        linters: [gosec]
+        text: "G702: Command injection via taint analysis"
+
+      # Paths in goformat runner are derived from the linted project root, not user input.
+      - path: pkg/goformat/runner.go
+        linters: [gosec]
+        text: "G703: Path traversal via taint analysis"
+
+      # dir is constructed from fixed benchmark root and owner/name constants.
+      - path: test/bench/bench_test.go
+        linters: [gosec]
+        text: "G703: Path traversal via taint analysis"
+
+      # uintptr -> int conversions for type size calculations via reflect, values cannot overflow int.
+      - path: pkg/goanalysis/runner_loadingpackage.go
+        linters: [gosec]
+        text: "G115: integer overflow conversion uintptr -> int"
+
       # The files created during the tests don't need to be secured.
       - path: scripts/website/expand_templates/linters_test.go
         linters: [gosec]
