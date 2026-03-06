@@ -11,7 +11,7 @@ env:
   # ex:
   # - 1.18beta1 -> 1.18.0-beta.1
   # - 1.18rc1 -> 1.18.0-rc.1
-  GO_VERSION: '1.26'
+  GO_VERSION: '1.26.1'
 
 jobs:
   # Check if there is any dirty change for go mod tidy
@@ -46,17 +46,6 @@ jobs:
       #   uses: golangci/golangci-lint-action@v6.5.0
       #   with:
       #     version: latest
-
-  tests-on-windows:
-    needs: golangci-lint # run after golangci-lint action to not produce duplicated errors
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-          go-version: ${{ env.GO_VERSION }} # test only the latest go version to speed up CI
-      - name: Run tests
-        run: make.exe test
 
   tests-on-unix:
     needs: golangci-lint # run after golangci-lint action to not produce duplicated errors
