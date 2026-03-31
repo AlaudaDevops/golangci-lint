@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.21
+# syntax=docker/dockerfile:1.23
 FROM golang:1.26.1
 
 # related to https://github.com/golangci/golangci-lint/issues/3107
