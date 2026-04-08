@@ -1,6 +1,6 @@
 module github.com/golangci/golangci-lint
 
-go 1.26.1
+go 1.26.2
 
 require (
 	4d63.com/gocheckcompilerdirectives v1.3.0
