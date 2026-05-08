@@ -373,7 +373,8 @@ hash_sha256_verify() {
     return 1
   fi
   BASENAME=${TARGET##*/}
-  want=$(grep "${BASENAME}" "${checksums}" 2>/dev/null | tr '\t' ' ' | cut -d ' ' -f 1)
+  # Anchor match to end-of-line to avoid matching *.sbom.json entries that share the same prefix
+  want=$(grep "${BASENAME}$" "${checksums}" 2>/dev/null | tr '\t' ' ' | cut -d ' ' -f 1)
   if [ -z "$want" ]; then
     log_err "hash_sha256_verify unable to find checksum for '${TARGET}' in '${checksums}'"
     return 1
