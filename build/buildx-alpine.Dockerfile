@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.21
-FROM golang:1.26-alpine
+FROM golang:1.26.3-alpine
 
 ARG TARGETPLATFORM
 
