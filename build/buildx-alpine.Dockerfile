@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.23
-FROM golang:1.26.2-alpine
+FROM golang:1.26.3-alpine
 
 # related to https://github.com/golangci/golangci-lint/issues/3107
 ENV GOROOT /usr/local/go
