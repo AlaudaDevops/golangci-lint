@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.21
+# syntax=docker/dockerfile:1.24
 FROM golang:1.26.3-alpine
 
 ARG TARGETPLATFORM
