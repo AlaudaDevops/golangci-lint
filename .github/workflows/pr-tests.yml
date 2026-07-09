@@ -10,7 +10,7 @@ env:
   # ex:
   # - 1.18beta1 -> 1.18.0-beta.1
   # - 1.18rc1 -> 1.18.0-rc.1
-  GO_VERSION: '1.26.4'
+  GO_VERSION: '1.26.5'
 
 jobs:
   # Check if there is any dirty change for go mod tidy
@@ -56,7 +56,7 @@ jobs:
           - ubuntu-latest
           - ubuntu-24.04-arm
         golang:
-          - '1.26.4'
+          - '1.26.5'
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
